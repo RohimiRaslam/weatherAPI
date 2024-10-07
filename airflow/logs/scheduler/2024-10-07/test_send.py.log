@@ -1,0 +1,56 @@
+[2024-10-07T00:00:06.581+0000] {processor.py:186} INFO - Started process (PID=168) to work on /opt/airflow/dags/test_send.py
+[2024-10-07T00:00:06.582+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/test_send.py for tasks to queue
+[2024-10-07T00:00:06.584+0000] {logging_mixin.py:190} INFO - [2024-10-07T00:00:06.583+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/test_send.py
+[2024-10-07T00:00:07.012+0000] {processor.py:925} INFO - DAG(s) 'send_to_snowflake' retrieved from /opt/airflow/dags/test_send.py
+[2024-10-07T00:00:07.151+0000] {logging_mixin.py:190} INFO - [2024-10-07T00:00:07.151+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2024-10-07T00:00:07.160+0000] {logging_mixin.py:190} INFO - [2024-10-07T00:00:07.160+0000] {dag.py:4180} INFO - Setting next_dagrun for send_to_snowflake to None, run_after=None
+[2024-10-07T00:00:07.179+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/test_send.py took 0.602 seconds
+[2024-10-07T00:00:37.336+0000] {processor.py:186} INFO - Started process (PID=178) to work on /opt/airflow/dags/test_send.py
+[2024-10-07T00:00:37.337+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/test_send.py for tasks to queue
+[2024-10-07T00:00:37.339+0000] {logging_mixin.py:190} INFO - [2024-10-07T00:00:37.339+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/test_send.py
+[2024-10-07T00:00:37.790+0000] {processor.py:925} INFO - DAG(s) 'send_to_snowflake' retrieved from /opt/airflow/dags/test_send.py
+[2024-10-07T00:00:37.807+0000] {logging_mixin.py:190} INFO - [2024-10-07T00:00:37.806+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2024-10-07T00:00:37.817+0000] {logging_mixin.py:190} INFO - [2024-10-07T00:00:37.817+0000] {dag.py:4180} INFO - Setting next_dagrun for send_to_snowflake to None, run_after=None
+[2024-10-07T00:00:37.833+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/test_send.py took 0.502 seconds
+[2024-10-07T00:01:07.967+0000] {processor.py:186} INFO - Started process (PID=187) to work on /opt/airflow/dags/test_send.py
+[2024-10-07T00:01:07.967+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/test_send.py for tasks to queue
+[2024-10-07T00:01:07.969+0000] {logging_mixin.py:190} INFO - [2024-10-07T00:01:07.969+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/test_send.py
+[2024-10-07T00:01:08.522+0000] {processor.py:925} INFO - DAG(s) 'send_to_snowflake' retrieved from /opt/airflow/dags/test_send.py
+[2024-10-07T00:01:08.540+0000] {logging_mixin.py:190} INFO - [2024-10-07T00:01:08.539+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2024-10-07T00:01:08.550+0000] {logging_mixin.py:190} INFO - [2024-10-07T00:01:08.550+0000] {dag.py:4180} INFO - Setting next_dagrun for send_to_snowflake to None, run_after=None
+[2024-10-07T00:01:08.568+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/test_send.py took 0.606 seconds
+[2024-10-07T00:01:38.724+0000] {processor.py:186} INFO - Started process (PID=196) to work on /opt/airflow/dags/test_send.py
+[2024-10-07T00:01:38.725+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/test_send.py for tasks to queue
+[2024-10-07T00:01:38.727+0000] {logging_mixin.py:190} INFO - [2024-10-07T00:01:38.727+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/test_send.py
+[2024-10-07T00:01:39.185+0000] {processor.py:925} INFO - DAG(s) 'send_to_snowflake' retrieved from /opt/airflow/dags/test_send.py
+[2024-10-07T00:01:39.203+0000] {logging_mixin.py:190} INFO - [2024-10-07T00:01:39.203+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2024-10-07T00:01:39.214+0000] {logging_mixin.py:190} INFO - [2024-10-07T00:01:39.214+0000] {dag.py:4180} INFO - Setting next_dagrun for send_to_snowflake to None, run_after=None
+[2024-10-07T00:01:39.231+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/test_send.py took 0.514 seconds
+[2024-10-07T00:02:09.363+0000] {processor.py:186} INFO - Started process (PID=205) to work on /opt/airflow/dags/test_send.py
+[2024-10-07T00:02:09.364+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/test_send.py for tasks to queue
+[2024-10-07T00:02:09.366+0000] {logging_mixin.py:190} INFO - [2024-10-07T00:02:09.365+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/test_send.py
+[2024-10-07T00:02:09.909+0000] {processor.py:925} INFO - DAG(s) 'send_to_snowflake' retrieved from /opt/airflow/dags/test_send.py
+[2024-10-07T00:02:09.945+0000] {logging_mixin.py:190} INFO - [2024-10-07T00:02:09.944+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2024-10-07T00:02:09.956+0000] {logging_mixin.py:190} INFO - [2024-10-07T00:02:09.955+0000] {dag.py:4180} INFO - Setting next_dagrun for send_to_snowflake to None, run_after=None
+[2024-10-07T00:02:10.010+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/test_send.py took 0.651 seconds
+[2024-10-07T00:02:40.177+0000] {processor.py:186} INFO - Started process (PID=214) to work on /opt/airflow/dags/test_send.py
+[2024-10-07T00:02:40.178+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/test_send.py for tasks to queue
+[2024-10-07T00:02:40.180+0000] {logging_mixin.py:190} INFO - [2024-10-07T00:02:40.179+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/test_send.py
+[2024-10-07T00:02:40.675+0000] {processor.py:925} INFO - DAG(s) 'send_to_snowflake' retrieved from /opt/airflow/dags/test_send.py
+[2024-10-07T00:02:40.693+0000] {logging_mixin.py:190} INFO - [2024-10-07T00:02:40.693+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2024-10-07T00:02:40.703+0000] {logging_mixin.py:190} INFO - [2024-10-07T00:02:40.703+0000] {dag.py:4180} INFO - Setting next_dagrun for send_to_snowflake to None, run_after=None
+[2024-10-07T00:02:40.740+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/test_send.py took 0.569 seconds
+[2024-10-07T00:03:10.885+0000] {processor.py:186} INFO - Started process (PID=223) to work on /opt/airflow/dags/test_send.py
+[2024-10-07T00:03:10.886+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/test_send.py for tasks to queue
+[2024-10-07T00:03:10.888+0000] {logging_mixin.py:190} INFO - [2024-10-07T00:03:10.887+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/test_send.py
+[2024-10-07T00:03:11.456+0000] {processor.py:925} INFO - DAG(s) 'send_to_snowflake' retrieved from /opt/airflow/dags/test_send.py
+[2024-10-07T00:03:11.475+0000] {logging_mixin.py:190} INFO - [2024-10-07T00:03:11.475+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2024-10-07T00:03:11.487+0000] {logging_mixin.py:190} INFO - [2024-10-07T00:03:11.486+0000] {dag.py:4180} INFO - Setting next_dagrun for send_to_snowflake to None, run_after=None
+[2024-10-07T00:03:11.505+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/test_send.py took 0.624 seconds
+[2024-10-07T00:03:41.655+0000] {processor.py:186} INFO - Started process (PID=232) to work on /opt/airflow/dags/test_send.py
+[2024-10-07T00:03:41.655+0000] {processor.py:914} INFO - Processing file /opt/airflow/dags/test_send.py for tasks to queue
+[2024-10-07T00:03:41.657+0000] {logging_mixin.py:190} INFO - [2024-10-07T00:03:41.657+0000] {dagbag.py:588} INFO - Filling up the DagBag from /opt/airflow/dags/test_send.py
+[2024-10-07T00:03:42.135+0000] {processor.py:925} INFO - DAG(s) 'send_to_snowflake' retrieved from /opt/airflow/dags/test_send.py
+[2024-10-07T00:03:42.153+0000] {logging_mixin.py:190} INFO - [2024-10-07T00:03:42.153+0000] {dag.py:3239} INFO - Sync 1 DAGs
+[2024-10-07T00:03:42.165+0000] {logging_mixin.py:190} INFO - [2024-10-07T00:03:42.164+0000] {dag.py:4180} INFO - Setting next_dagrun for send_to_snowflake to None, run_after=None
+[2024-10-07T00:03:42.199+0000] {processor.py:208} INFO - Processing /opt/airflow/dags/test_send.py took 0.549 seconds
