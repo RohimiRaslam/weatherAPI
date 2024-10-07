@@ -1,7 +1,7 @@
 from airflow import DAG
-from airflow.operators.python import PythonOperator
-from airflow.utils.dates import days_ago
-from airflow.hooks.base import BaseHook
+# from airflow.operators.python import PythonOperator
+# from airflow.utils.dates import days_ago
+# from airflow.hooks.base import BaseHook
 import pandas as pd
 import snowflake.connector
 from snowflake.connector.pandas_tools import write_pandas
@@ -9,49 +9,53 @@ from datetime import datetime, timedelta
 
 
 # Default arguments for all tasks
-default_args = {
-    'owner': 'airflow',
-    'depends_on_past': False,
-    'email_on_failure': False,
-    'email_on_retry': False,
-    'retries': 3,
-    'retry_delay': timedelta(minutes=5),
-}
+# default_args = {
+#     'owner': 'airflow',
+#     'depends_on_past': False,
+#     'email_on_failure': False,
+#     'email_on_retry': False,
+#     'retries': 3,
+#     'retry_delay': timedelta(minutes=5),
+# }
 
-#=================================================================================================================================================
-# Function to fetch Snowflake connection details==================================================================================================
-def get_snowflake_connection(conn_id):
-    """
-    Retrieves Snowflake connection details from Airflow connections.
-    """
-    conn = BaseHook.get_connection(conn_id)
-    return {
-        'account': conn.extra_dejson.get('account'),
-        'user': conn.login,
-        'password': conn.password,
-        'warehouse': conn.extra_dejson.get('warehouse'),
-        'database': conn.extra_dejson.get('database'),
-        'schema': conn.schema,
-        'role': conn.extra_dejson.get('role')
-    }
+#    context['ti'].xcom_push(key='raw_dataframe', value=raw_data.to_json())
 
+###################################################################################################
+################ fetch Snowflake connection details not needed as we are not runnig airflow for now#######################
+###################################################################################################
 
-# Function to create a raw DataFrame
-def create_raw_dataframe(**context):
-    """
-    Creates a raw DataFrame with employee data and pushes it to XCom.
-    """
-    raw_data = pd.DataFrame({
-        'id': [101, 102, 103, 104, 105],
-        'name': ['John Doe', 'Jane Smith', 'Alice Brown', 'Bob White', 'Charlie Black'],
-        'age': [45, 34, 29, 54, 23],
-        'department': ['HR', 'Finance', 'Engineering', 'Sales', 'Marketing'],
-        'salary': [70000, 85000, 60000, 95000, 50000],
-        'join_date': ['2015-03-01', '2018-07-15', '2019-10-22', '2010-05-30', '2022-01-10']
-    })
+# def get_snowflake_connection(conn_id):
+#     """
+#     Retrieves Snowflake connection details from Airflow connections.
+#     """
+#     conn = BaseHook.get_connection(conn_id)
+#     return {
+#         'account': conn.extra_dejson.get('account'),
+#         'user': conn.login,
+#         'password': conn.password,
+#         'warehouse': conn.extra_dejson.get('warehouse'),
+#         'database': conn.extra_dejson.get('database'),
+#         'schema': conn.schema,
+#         'role': conn.extra_dejson.get('role')
+#     }
 
-    # Push the DataFrame to XCom as JSON
-    context['ti'].xcom_push(key='raw_dataframe', value=raw_data.to_json())
+###################################################################################################
+############### retrieve raw data from API as pandas dataframe ####################################
+###################################################################################################
+
+# retrieve raw data from API as pandas dataframe
+def load_data_from_api():
+    raw_data = requests.get(url).json()['current']
+    raw_data = pd.json_normalize(raw_data)
+    return raw_data
+
+# store the dataframe into a variable
+dataframe = load_data_from_api()
+
+###################################################################################################
+##############push the stored data into snowflake##################################################
+###################################################################################################
+
 
 
 # Function to upload raw DataFrame to Snowflake
@@ -108,7 +112,7 @@ with DAG(
     schedule_interval=None,
     start_date=days_ago(1),
     catchup=False,
-    description="A DAG that uploads raw employee data to Snowflake."
+    description="A DAG that uploads current temperature data to Snowflake."
 ) as dag:
 
     # Task 1: Create Raw DataFrame
