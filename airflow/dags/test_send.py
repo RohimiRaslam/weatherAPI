@@ -6,9 +6,10 @@ import pandas as pd
 import snowflake.connector
 from snowflake.connector.pandas_tools import write_pandas
 from datetime import datetime, timedelta
+import requests
 
 
-Default arguments for all tasks
+# Default arguments for all tasks
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
@@ -18,10 +19,10 @@ default_args = {
     'retry_delay': timedelta(minutes=3),
 }
 
-   context['ti'].xcom_push(key='raw_dataframe', value=raw_data.to_json())
+#    context['ti'].xcom_push(key='raw_dataframe', value=raw_data.to_json())
 
 ###################################################################################################
-####### fetch Snowflake connection details not needed as we are not runnig airflow for now ########
+####### fetch Snowflake connection details not needed as we defined the connection hard-coded #####
 ###################################################################################################
 
 # def get_snowflake_connection(conn_id):
@@ -42,6 +43,8 @@ default_args = {
 ###################################################################################################
 ############### retrieve raw data from API as pandas dataframe ####################################
 ###################################################################################################
+
+url = 'https://api.weatherapi.com/v1/current.json?key=98078c8de2274791b03161315240410&q=London&aqi=yes'
 
 # retrieve raw data from API as pandas dataframe
 def load_data_from_api():
@@ -75,7 +78,7 @@ def send_pandas_dataframe_to_snowflake():
 
     success, nchunks, nrows, _ = write_pandas(
                 conn = snowflake_connection,
-                df = raw_data,
+                df = data,
                 table_name='temperature',  # The raw data table
                 database=database,
                 schema=schema,
@@ -91,7 +94,7 @@ with DAG(
     dag_id='weatherAPI',
     default_args=default_args,
     description='Ingest and store real time weather data',
-    schedule_interval=timedelta(minutes = 30),  # hald an hourly schedule
+    schedule_interval=timedelta(minutes = 2),  # every 2 minutes
     start_date=datetime(2024, 10, 8),  # Start date
     # end_date=datetime(2024, 9, 20), # End date
     catchup=False,  # Don't backfill missing runs
@@ -99,13 +102,13 @@ with DAG(
 ) as dag:
 
     retrieve_data_task = PythonOperator(
-        task_id="retrieve API's data",
-        python_callable=get_data,
+        task_id="retrieve-data-from-api",
+        python_callable= load_data_from_api,
         provide_context=True
     )
 
     store_dataframe_task = PythonOperator(
-        task_id = 'send to snowflake',
+        task_id = 'send-to-snowflake',
         python_callable = send_pandas_dataframe_to_snowflake,
         provide_context = True
     )
