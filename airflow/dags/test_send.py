@@ -1,6 +1,6 @@
 from airflow import DAG
-# from airflow.operators.python import PythonOperator
-# from airflow.utils.dates import days_ago
+from airflow.operators.python import PythonOperator
+from airflow.utils.dates import days_ago
 # from airflow.hooks.base import BaseHook
 import pandas as pd
 import snowflake.connector
@@ -8,20 +8,20 @@ from snowflake.connector.pandas_tools import write_pandas
 from datetime import datetime, timedelta
 
 
-# Default arguments for all tasks
-# default_args = {
-#     'owner': 'airflow',
-#     'depends_on_past': False,
-#     'email_on_failure': False,
-#     'email_on_retry': False,
-#     'retries': 3,
-#     'retry_delay': timedelta(minutes=5),
-# }
+Default arguments for all tasks
+default_args = {
+    'owner': 'airflow',
+    'depends_on_past': False,
+    'email_on_failure': False,
+    'email_on_retry': False,
+    'retries': 3,
+    'retry_delay': timedelta(minutes=3),
+}
 
-#    context['ti'].xcom_push(key='raw_dataframe', value=raw_data.to_json())
+   context['ti'].xcom_push(key='raw_dataframe', value=raw_data.to_json())
 
 ###################################################################################################
-################ fetch Snowflake connection details not needed as we are not runnig airflow for now#######################
+####### fetch Snowflake connection details not needed as we are not runnig airflow for now ########
 ###################################################################################################
 
 # def get_snowflake_connection(conn_id):
@@ -45,88 +45,70 @@ from datetime import datetime, timedelta
 
 # retrieve raw data from API as pandas dataframe
 def load_data_from_api():
-    raw_data = requests.get(url).json()['current']
-    raw_data = pd.json_normalize(raw_data)
-    return raw_data
+    raw_data = requests.get(url).json()
+    df = pd.json_normalize(raw_data)
+    return df
 
-# store the dataframe into a variable
-dataframe = load_data_from_api()
+data = load_data_from_api()
 
 ###################################################################################################
-##############push the stored data into snowflake##################################################
+#################### push the stored data into snowflake ##########################################
 ###################################################################################################
 
+def send_pandas_dataframe_to_snowflake():
+    user = 'PROJECTSMITH'          # Your Snowflake username
+    password = 'Testpassword95'  # Your Snowflake password
+    account = 'ISOCBXH-ER59203'    # Snowflake account name (e.g., 'account.region')
+    warehouse = 'COMPUTE_WH'  # The warehouse to use
+    database = 'WEATHERAPI'  # The database to connect to
+    schema = 'RAW'      # The schema to use
 
+    snowflake_connection = snowflake.connector.connect(
+    user='PROJECTSMITH',
+    password='Testpassword95',
+    account='ISOCBXH-ER59203',
+    warehouse='COMPUTE_WH',
+    database='WEATHERAPI',
+    schema='RAW',
+    role='ACCOUNTADMIN'
+    )
 
-# Function to upload raw DataFrame to Snowflake
-def upload_raw_to_snowflake(**context):
-    """
-    Uploads the raw DataFrame to Snowflake into a specified table.
-    """
-    # Pull the DataFrame from XCom
-    df_json = context['ti'].xcom_pull(key='raw_dataframe')
-    df = pd.read_json(df_json)
-
-    # Retrieve Snowflake connection details
-    snowflake_conn = get_snowflake_connection('snowflake_conn')
-
-    try:
-        # Establish Snowflake connection using context manager
-        with snowflake.connector.connect(
-            account=snowflake_conn['account'],
-            user=snowflake_conn['user'],
-            password=snowflake_conn['password'],
-            warehouse=snowflake_conn['warehouse'],
-            database=snowflake_conn['database'],
-            schema=snowflake_conn['schema'],
-            role=snowflake_conn['role']
-        ) as conn:
-
-            # Write the DataFrame to Snowflake in the RAW_EMPLOYEE_DATA table
-            success, nchunks, nrows, _ = write_pandas(
-                conn,
-                df,
-                'RAW_EMPLOYEE_DATA',  # The raw data table
+    success, nchunks, nrows, _ = write_pandas(
+                conn = snowflake_connection,
+                df = raw_data,
+                table_name='temperature',  # The raw data table
+                database=database,
+                schema=schema,
                 auto_create_table=True,
                 overwrite=False  # Ensure we're appending, not overwriting
-            )
+                )
 
-            if success:
-                print(f"Successfully uploaded {nrows} rows in {nchunks} chunks to RAW_EMPLOYEE_DATA in Snowflake.")
-            else:
-                print("Failed to upload data to Snowflake.")
+###################################################################################################
+############################### Define the DAG ####################################################
+###################################################################################################
 
-    except snowflake.connector.errors.ProgrammingError as e:
-        print(f"Snowflake Programming Error: {str(e)}")
-        raise
-
-    except Exception as e:
-        print(f"An unexpected error occurred: {str(e)}")
-        raise
-
-#=================================================================================================================================================
-# Define the DAG =================================================================================================================================
 with DAG(
-    dag_id='send_to_snowflake',
+    dag_id='weatherAPI',
     default_args=default_args,
-    schedule_interval=None,
-    start_date=days_ago(1),
-    catchup=False,
-    description="A DAG that uploads current temperature data to Snowflake."
+    description='Ingest and store real time weather data',
+    schedule_interval=timedelta(minutes = 30),  # hald an hourly schedule
+    start_date=datetime(2024, 10, 8),  # Start date
+    # end_date=datetime(2024, 9, 20), # End date
+    catchup=False,  # Don't backfill missing runs
+    tags=['ETL']
 ) as dag:
 
-    # Task 1: Create Raw DataFrame
-    create_raw_dataframe_task = PythonOperator(
-        task_id='create_raw_dataframe',
-        python_callable=create_raw_dataframe
+    retrieve_data_task = PythonOperator(
+        task_id="retrieve API's data",
+        python_callable=get_data,
+        provide_context=True
     )
 
-    # Task 2: Upload Raw DataFrame to Snowflake
-    upload_raw_task = PythonOperator(
-        task_id='upload_raw_to_snowflake',
-        python_callable=upload_raw_to_snowflake
+    store_dataframe_task = PythonOperator(
+        task_id = 'send to snowflake',
+        python_callable = send_pandas_dataframe_to_snowflake,
+        provide_context = True
     )
-
 
     # Set task dependencies
-    create_raw_dataframe_task >> upload_raw_task
+    retrieve_data_task >> store_dataframe_task
