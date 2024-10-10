@@ -1,0 +1,46 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36" version="24.7.17">
+  <diagram name="Page-1" id="OoGQn1lg1yU16YF_M0d4">
+    <mxGraphModel dx="744" dy="402" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="3E_jC8MAyA32QrSdnG3v-37" value="" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry y="280" width="790" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="3E_jC8MAyA32QrSdnG3v-32" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="3E_jC8MAyA32QrSdnG3v-27" target="3E_jC8MAyA32QrSdnG3v-28">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3E_jC8MAyA32QrSdnG3v-27" value="Ingest data&lt;div&gt;from API&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="20" y="350" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3E_jC8MAyA32QrSdnG3v-33" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="3E_jC8MAyA32QrSdnG3v-28" target="3E_jC8MAyA32QrSdnG3v-29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3E_jC8MAyA32QrSdnG3v-28" value="Store data&lt;div&gt;into adls&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="230" y="350" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3E_jC8MAyA32QrSdnG3v-34" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="3E_jC8MAyA32QrSdnG3v-29" target="3E_jC8MAyA32QrSdnG3v-30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3E_jC8MAyA32QrSdnG3v-29" value="Clean raw data&lt;div&gt;in databricks&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="440" y="350" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3E_jC8MAyA32QrSdnG3v-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="3E_jC8MAyA32QrSdnG3v-30" target="3E_jC8MAyA32QrSdnG3v-31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="3E_jC8MAyA32QrSdnG3v-30" value="Send cleaned data&lt;div&gt;tro snowflake&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="640" y="350" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3E_jC8MAyA32QrSdnG3v-31" value="Display cleaned data&lt;div&gt;on dashboard&lt;/div&gt;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="845" y="350" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="3E_jC8MAyA32QrSdnG3v-38" value="Orchetrate with Airflow" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="325" y="280" width="140" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="3E_jC8MAyA32QrSdnG3v-40" value="&lt;font style=&quot;font-size: 16px;&quot;&gt;-&amp;nbsp;&lt;/font&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;Airflow DatabricksRunNowOperator&amp;nbsp;&lt;/font&gt;&lt;span style=&quot;background-color: initial; font-size: 16px;&quot;&gt;controls the job (medallion architecture)&lt;/span&gt;&lt;div&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- Dalam airflow dag, create task guna DatabricksRunNowOperator&lt;/font&gt;&lt;div style=&quot;font-size: 16px;&quot;&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- Job akan run bronze ,silver, gold phase.&amp;nbsp;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 16px;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;- Dalam task tu jugak akan run function untuk push data ke snowflake&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 16px;&quot;&gt;&lt;font style=&quot;font-size: 16px;&quot;&gt;- Data cleaning will be done inside databricks and not snowflake&lt;/font&gt;&lt;/div&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=top;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="40" y="630" width="570" height="110" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
