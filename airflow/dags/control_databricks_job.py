@@ -10,12 +10,12 @@ from datetime import datetime, timedelta
 import requests
 
 default_args = {
-  'owner': 'airflow'
+  'owner': 'airflow',
   'depends_on_past': False,
   'email_on_failure': False,
   'email_on_retry': False,
-  'retries': 3,
-  'retry_delay': timedelta(minutes=3)
+  # 'retries': 3,
+  # 'retry_delay': timedelta(minutes=3)
 }
 
 
@@ -23,8 +23,8 @@ with DAG(
     dag_id='weatherAPI-Databricks',
     default_args=default_args,
     description='Real time weather data',
-    schedule_interval=timedelta(minutes = 2),  # every 2 minutes
-    start_date=datetime.today(),  # Start date
+    schedule_interval=timedelta(minutes = 20),  # every 20 minutes
+    start_date=datetime(2024 , 10 , 10),  # Start date
     catchup=False,  # Don't backfill missing runs
     tags=['ETL']
   ) as dag:
@@ -32,7 +32,7 @@ with DAG(
   trigger_databricks_job = DatabricksRunNowOperator(
     task_id = 'trigger-from-airflow',
     databricks_conn_id = 'databricks_conn',
-    job_id = 411413206638309
+    job_id = 480930743159020
   )
 
 
